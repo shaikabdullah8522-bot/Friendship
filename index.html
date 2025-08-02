@@ -58,22 +58,17 @@
 
   <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full relative z-10">
     <h1 class="text-4xl font-bold text-pink-500 mb-4">🌸 Happy Friendship Day! 🌸</h1>
-    <p class="text-gray-600 mb-6">Enter your name to open your special Friendship gift.</p>
+    <p class="text-gray-600 mb-6">Enter your name to see your special Friendship message.</p>
 
     <input id="nameInput" type="text" placeholder="Enter your name" 
            class="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400">
-    <button onclick="showGift()" 
+    <button onclick="showMessage()" 
             class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl shadow-lg transition animate-bounce">
-      Open Gift 🎁
+      Show Message 💌
     </button>
 
-    <div id="giftSection" class="mt-6 hidden">
-      <img id="giftImage" 
-           src="https://i.postimg.cc/7ZQFyY6H/gift-box.png" 
-           alt="Gift" 
-           class="mx-auto w-32 mb-4 cursor-pointer transition-transform transform hover:scale-110" 
-           onclick="openGiftBox()">
-      <h2 id="slogan" class="text-xl font-semibold text-green-600 hidden"></h2>
+    <div id="messageSection" class="mt-6 hidden">
+      <h2 id="slogan" class="text-xl font-semibold text-green-600"></h2>
     </div>
   </div>
 
@@ -87,28 +82,22 @@
     ];
 
     const specialSlogans = {
-      "Karthik": "Karthik, your friendship is like a bright star guiding me through life!",
-      "Navadeep": "Navadeep, you bring joy and laughter wherever i see you —true friend forever!",
-      "Mythri": "Mythri, your kindness and care make friendship so beautiful and strong!",I'm so lucky to have been blessed with a friend like you
-      "Amer": "Amer, you are the heart of every friendship —always cherished!",I have never seen friendship like you in my life };
+      "Karthik": "Karthik, your friendship is like a bright star guiding me through life! I am thankful for God for giving a friend like you in my life.",
+      "Navadeep": "Navadeep, you bring joy and laughter wherever I see you — true friend forever! I am thankful for God for giving me a friend like you.",
+      "Mythri": "Mythri, your kindness and care make friendship so beautiful and strong! I'm so lucky to have been blessed with a friend like you. I am thankful for God for giving a friend like you.",
+      "Amer": "Amer, you are the heart of every friendship — always cherished! I have never seen friendship like you in my life. Mai Allah tala se dua hai ki sabko aisa dost de."
+    };
 
-    let currentSlogan = "";
-
-    function showGift() {
+    function showMessage() {
       const name = document.getElementById('nameInput').value.trim();
       if (!name) {
         alert('Please enter your name!');
         return;
       }
 
-      currentSlogan = specialSlogans[name] || `${name}, ${generalSlogans[Math.floor(Math.random() * generalSlogans.length)]}`;
-      document.getElementById('giftSection').classList.remove('hidden');
-    }
-
-    function openGiftBox() {
-      document.getElementById('giftImage;https://www.google.com/imgres?q=gift%20box%20&imgurl=http%3A%2F%2Fbakeyy.com%2Fcdn%2Fshop%2Ffiles%2Fgift-box-or-pack-of-10-or-chocolate-packing-box-or-return-gift-box-or-red-colour-or-big-bakeyy-com.png%3Fv%3D1737963118&imgrefurl=https%3A%2F%2Fbakeyy.com%2Fproducts%2Fgift-box-pack-of-10-chocolate-packing-box-return-gift-box-red-colour-big-2%3Fsrsltid%3DAfmBOopYT59k2n3Jb_rnVHWUdU4EMAR6AFDljGHOSVganBqATsR7VwA0&docid=ivgxbxANbUbH3M&tbnid=6sAM-O-AC8IDeM&vet=12ahUKEwj6v5fi5-yOAxV84jgGHaNdFtwQM3oECCwQAA..i&w=500&h=500&hcb=2&ved=2ahUKEwj6v5fi5-yOAxV84jgGHaNdFtwQM3oECCwQAA
-      document.getElementById('slogan').innerText = currentSlogan;
-      document.getElementById('slogan').classList.remove('hidden');
+      let slogan = specialSlogans[name] || `${name}, ${generalSlogans[Math.floor(Math.random() * generalSlogans.length)]}`;
+      document.getElementById('slogan').innerText = slogan;
+      document.getElementById('messageSection').classList.remove('hidden');
 
       // Confetti animation
       confetti({
