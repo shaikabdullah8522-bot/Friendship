@@ -7,31 +7,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
-<body id="body" class="bg-gradient-to-r from-pink-300 via-yellow-200 to-green-300 min-h-screen flex items-center justify-center transition-all duration-700">
-  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full text-center animate-fadeIn">
-    <h1 class="text-4xl font-bold text-pink-500 mb-4 animate-bounce">Happy Friendship Day! 🎉</h1>
-    <p class="mb-6 text-gray-600">Enter your name to unlock your surprise gift and slogan!</p>
-    
+<body class="bg-gradient-to-r from-yellow-200 via-pink-200 to-green-200 min-h-screen flex items-center justify-center text-center">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
+    <h1 class="text-4xl font-bold text-pink-500 mb-4">🌸 Happy Friendship Day! 🌸</h1>
+    <p class="text-gray-600 mb-6">Enter your name to see a special friendship slogan for you.</p>
+
     <input id="nameInput" type="text" placeholder="Enter your name" 
            class="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400">
-    <button onclick="showSurprise()" 
+    <button onclick="showSlogan()" 
             class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl shadow-lg transition">
-      Unlock Gift 🎁
+      Show Slogan 💌
     </button>
-    
-    <div id="giftBoxSection" class="mt-6 hidden">
-      <img id="giftBox" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" 
-           alt="Gift Box" class="mx-auto w-40 mb-4 animate-pulse">
-    </div>
 
-    <div id="surpriseSection" class="mt-6 hidden">
-      <img id="giftImage" src="" alt="Gift" class="mx-auto w-40 mb-4 animate-bounce">
-      <h2 id="slogan" class="text-xl font-semibold text-green-600 animate-fadeIn"></h2>
+    <div id="sloganSection" class="mt-6 hidden">
+      <h2 id="slogan" class="text-xl font-semibold text-green-600"></h2>
     </div>
   </div>
 
   <script>
-    const slogans = [
+    const generalSlogans = [
       "Friendship is the golden thread that ties our hearts together!",
       "Good friends are like stars—you don't always see them, but you know they're there!",
       "A true friend is the greatest of all blessings!",
@@ -39,56 +33,31 @@
       "Friendship multiplies the good and divides the sorrow!"
     ];
 
-    const specialGifts = {
-      "Karthik": { img: "https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif", bg: "bg-gradient-to-r from-blue-400 via-purple-300 to-pink-400" },
-      "Navadeep": { img: "https://media.giphy.com/media/l0MYyDa8B4KcXnJCE/giphy.gif", bg: "bg-gradient-to-r from-green-400 via-yellow-300 to-orange-400" },
-      "Mythri": { img: "https://media.giphy.com/media/xT0GqeSlGSRQut4cE0/giphy.gif", bg: "bg-gradient-to-r from-pink-400 via-red-300 to-yellow-300" },
-      "Amer": { img: "https://media.giphy.com/media/l4pTdcifPZLpDjL1e/giphy.gif", bg: "bg-gradient-to-r from-indigo-400 via-purple-300 to-teal-300" }
+    const specialSlogans = {
+      "Karthik": "Karthik, your friendship is like a bright star guiding us through life!",
+      "Navadeep": "Navadeep, you bring joy and laughter wherever you go—true friend forever!",
+      "Mythri": "Mythri, your kindness and care make friendship so beautiful!",
+      "Amer": "Amer, you are the heart of every friendship circle—always cherished!"
     };
 
-    function showSurprise() {
+    function showSlogan() {
       const name = document.getElementById('nameInput').value.trim();
-      const body = document.getElementById('body');
       if (!name) {
-        alert('Please enter your name to unlock your surprise!');
+        alert('Please enter your name!');
         return;
       }
 
-      document.getElementById('giftBoxSection').classList.remove('hidden');
+      let slogan = specialSlogans[name] || `${name}, ${generalSlogans[Math.floor(Math.random() * generalSlogans.length)]}`;
+      document.getElementById('slogan').innerText = slogan;
+      document.getElementById('sloganSection').classList.remove('hidden');
 
-      setTimeout(() => {
-        document.getElementById('giftBoxSection').classList.add('hidden');
-        document.getElementById('surpriseSection').classList.remove('hidden');
-        
-        let randomSlogan = slogans[Math.floor(Math.random() * slogans.length)];
-        let giftImage = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
-
-        if (specialGifts[name]) {
-          randomSlogan = `${name}, you are a treasure of friendship!`;
-          giftImage = specialGifts[name].img;
-          body.className = `${specialGifts[name].bg} min-h-screen flex items-center justify-center transition-all duration-700`;
-        }
-
-        document.getElementById('slogan').innerText = randomSlogan;
-        document.getElementById('giftImage').src = giftImage;
-
-        confetti({
-          particleCount: 200,
-          spread: 100,
-          origin: { y: 0.6 }
-        });
-      }, 2000);
+      // Trigger confetti animation
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
     }
   </script>
-
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .animate-fadeIn {
-      animation: fadeIn 1.5s ease-in-out;
-    }
-  </style>
 </body>
 </html>
