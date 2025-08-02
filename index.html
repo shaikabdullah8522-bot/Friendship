@@ -6,21 +6,74 @@
   <title>Happy Friendship Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    /* Floating hearts background animation */
+    body {
+      position: relative;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      opacity: 0.7;
+      transform: rotate(45deg);
+      animation: floatUp 6s infinite ease-in;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-800px) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-r from-yellow-200 via-pink-200 to-green-200 min-h-screen flex items-center justify-center text-center">
-  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
+  
+  <!-- Floating hearts container -->
+  <div id="hearts-container"></div>
+
+  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full relative z-10">
     <h1 class="text-4xl font-bold text-pink-500 mb-4">🌸 Happy Friendship Day! 🌸</h1>
-    <p class="text-gray-600 mb-6">Enter your name to see a special friendship slogan for you.</p>
+    <p class="text-gray-600 mb-6">Enter your name to open your special Friendship gift.</p>
 
     <input id="nameInput" type="text" placeholder="Enter your name" 
            class="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400">
-    <button onclick="showSlogan()" 
-            class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl shadow-lg transition">
-      Show Slogan 💌
+    <button onclick="showGift()" 
+            class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl shadow-lg transition animate-bounce">
+      Open Gift 🎁
     </button>
 
-    <div id="sloganSection" class="mt-6 hidden">
-      <h2 id="slogan" class="text-xl font-semibold text-green-600"></h2>
+    <div id="giftSection" class="mt-6 hidden">
+      <img id="giftImage" 
+           src="https://i.postimg.cc/7ZQFyY6H/gift-box.png" 
+           alt="Gift" 
+           class="mx-auto w-32 mb-4 cursor-pointer transition-transform transform hover:scale-110" 
+           onclick="openGiftBox()">
+      <h2 id="slogan" class="text-xl font-semibold text-green-600 hidden"></h2>
     </div>
   </div>
 
@@ -40,24 +93,45 @@
       "Amer": "Amer, you are the heart of every friendship circle—always cherished!"
     };
 
-    function showSlogan() {
+    let currentSlogan = "";
+
+    function showGift() {
       const name = document.getElementById('nameInput').value.trim();
       if (!name) {
         alert('Please enter your name!');
         return;
       }
 
-      let slogan = specialSlogans[name] || `${name}, ${generalSlogans[Math.floor(Math.random() * generalSlogans.length)]}`;
-      document.getElementById('slogan').innerText = slogan;
-      document.getElementById('sloganSection').classList.remove('hidden');
+      currentSlogan = specialSlogans[name] || `${name}, ${generalSlogans[Math.floor(Math.random() * generalSlogans.length)]}`;
+      document.getElementById('giftSection').classList.remove('hidden');
+    }
 
-      // Trigger confetti animation
+    function openGiftBox() {
+      document.getElementById('giftImage').src = "https://i.postimg.cc/dt4mPgjS/open-gift.png";
+      document.getElementById('slogan').innerText = currentSlogan;
+      document.getElementById('slogan').classList.remove('hidden');
+
+      // Confetti animation
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 150,
+        spread: 90,
         origin: { y: 0.6 }
       });
     }
+
+    // Create floating hearts continuously
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.getElementById("hearts-container").appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+    setInterval(createHeart, 300);
   </script>
 </body>
 </html>
